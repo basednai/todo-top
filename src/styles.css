@@ -1,0 +1,83 @@
+:root {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+div {
+    border: 2px solid black
+}
+
+.todo {
+    padding: 20px;
+    width: 80%;
+    height: 33%;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    place-items: center;
+    background: #ffc;
+    gap: 16px;
+    box-shadow: 3px 5px 3px 3px grey;
+}
+
+.dataContainer {
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    grid-template-rows: 1fr 5fr;
+}
+
+.header {
+    grid-column: 1 / 3;
+    grid-row: 1 / 2;
+}
+
+.sidebar {
+    grid-column: 1 / 2;
+    grid-row: 2 / -1;
+    display: grid;
+    justify-items: center;
+}
+
+.project-list>li {
+    margin: 20px 0px;
+}
+
+.contentContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    justify-items: center;
+    grid-row: 2 / -1;
+    grid-column: 2 / -1;
+}
+
+.newTodo {
+    position: fixed;
+    right: 15px;
+    bottom: 15px;
+}
+
+.form-popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    height: 50%;
+    width: 30%;
+    z-index: 1;
+    transform: translate(-50%, -50%);
+    background-color: white;
+}
+
+.form-container {
+    display: grid;
+    grid-auto-rows: 1fr;
+    height: 100%;
+    align-items: center;
+}

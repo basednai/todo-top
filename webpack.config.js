@@ -13,6 +13,7 @@ module.exports = {
   devtool: "eval-source-map",
   devServer: {
     static: './dist',
+    hot: false,
   },
   plugins: [
     new HtmlWebpackPlugin({
