@@ -2,7 +2,8 @@ import { Todo } from "./todo.js";
 import { Project } from "./projects.js";
 import * as css from "./styles.css";
 import { ProjectContainer } from "./projectContainer.js";
-import { renderProjects, appendProject} from "./renderProjects.js";
+import { renderProjects, appendProject } from "./renderProjects.js";
+import { RenderContent } from "./renderContent.js";
 
 
 
@@ -68,13 +69,13 @@ form.addEventListener("submit", (e) => {
 
     hideform()
 
-    RenderContent(project, (project.projectName == "none") ? true : false)
+    RenderContent(ProjectContainer, project, content, (project.projectName == "none") ? true : false)
 })
 
 newProject.addEventListener("click", () => {
     let projectName = prompt("Enter Project Name");
     if (projectName) {
-        appendProject(projectContainer.newProject(projectName), projectContainer, sidebarList, select);
+        appendProject(projectContainer.newProject(projectName), projectContainer, content, sidebarList, select);
     }
 });
 
@@ -91,7 +92,7 @@ sbButtons.forEach((button) => {
     button.addEventListener("click", () => {
         let selectedButtonProject = (button.id == "AllTodos" ? masterProject : projectContainer.get(button.textContent)
         )
-        RenderContent(selectedButtonProject)
+        RenderContent(projectContainer, selectedButtonProject, content)
 
 
 
@@ -100,48 +101,6 @@ sbButtons.forEach((button) => {
 
 document.querySelector("[data-listall]").addEventListener("click", () => {
     // console.log("click");
-    RenderContent(projectContainer.allTodos(), true)
+    RenderContent(projectContainer, projectContainer.allTodos(), content, true)
 });
 
-//clear content and render button info
-function RenderContent(project, all = false) {
-    content.innerHTML = "";
-
-    if (all) project = projectContainer.allTodos()
-    console.log(project);
-
-
-    project.get().forEach((todo) => {
-        console.log(todo);
-
-        let todoDiv = document.createElement("div");
-        todoDiv.classList.add("todo");
-
-
-        todoContent(todo, "title", todoDiv);
-        todoContent(todo, "description", todoDiv);
-        todoContent(todo, "dueDate", todoDiv);
-        todoContent(todo, "priority", todoDiv);
-
-        let rmBtn = document.createElement("button");
-        rmBtn.textContent = "Remove todo"
-        rmBtn.addEventListener("click", () => {
-            let project = projectContainer.get(todo.project)
-
-            project.removeTodo(todo)
-
-            RenderContent(project, all)
-        })
-        todoDiv.appendChild(rmBtn)
-
-        content.appendChild(todoDiv)
-
-    })
-
-
-    function todoContent(todo, param, parent) {
-        let content = document.createElement("div");
-        content.textContent = `${param}: ${todo[param]};`
-        parent.appendChild(content);
-    }
-}
