@@ -57,7 +57,7 @@ div {
     grid-column: 2 / -1;
 }
 
-.newTodo {
+.newBtns {
     position: fixed;
     right: 15px;
     bottom: 15px;

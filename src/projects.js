@@ -9,6 +9,7 @@ export function Project(name) {
         addTodo: (Todo) => {
             todos.push(Todo)
             masterProject.todos.push(Todo)
+            Todo.project = projectName
         },
         removeTodo: function (Todo) {
             todos = todos.filter((item) => item != Todo);

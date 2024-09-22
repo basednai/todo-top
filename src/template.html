@@ -14,7 +14,10 @@
             <ul class="project-list" data-projectList></ul>
         </div>
         <div data-content class="contentContainer">Data</div>
-        <button class="newTodo" data-newTodo>New Todo</button>
+        <div class="newBtns" data-newBtns>
+            <button class="newTodo" data-newTodo>New Todo</button>
+            <button class="newProject" data-newProject>New Project</button>
+        </div>
     </div>
 
     <div class="form-popup" data-formpopup id="myForm">
@@ -33,12 +36,22 @@
 
             <div class="formField">
                 <label for="dueDate"><b>dueDate</b></label>
-                <input type="text" placeholder="Enter dueDate" name="dueDate" required>
+                <input type="datetime-local" placeholder="Enter dueDate" name="dueDate" required>
             </div>
 
             <div class="formField">
+                <!-- <label for="priority"><b>priority</b></label>
+                <input type="text" placeholder="Enter priority" name="priority" required> -->
+
                 <label for="priority"><b>priority</b></label>
-                <input type="text" placeholder="Enter priority" name="priority" required>
+                <select id="priority" name="priority">
+                    <option value=""></option>
+                    <option value="!">!</option>
+                    <option value="!!">!!</option>
+                    <option value="!!!">!!!</option>
+                </select>
+
+
             </div>
 
             <div class="formField">

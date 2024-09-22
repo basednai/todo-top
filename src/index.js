@@ -1,8 +1,8 @@
 import { Todo } from "./todo.js";
 import { Project, masterProject } from "./projects.js";
-import { RenderContent } from "./renderContent.js";
 import * as css from "./styles.css";
 import { ProjectContainer } from "./projectContainer.js";
+import { renderProjects } from "./renderProjects.js";
 
 
 
@@ -11,12 +11,13 @@ const header = document.querySelector('[data-header]');
 const sidebar = document.querySelector('[data-sidebar]');
 const sidebarList = document.querySelector('[data-projectList]');
 const content = document.querySelector('[data-content]');
-const form = document.querySelector('[data-form]')
-const formPopUp = document.querySelector('[data-formPopUp]')
-const newBtn = document.querySelector("[data-newTodo]")
-const closeBtn = document.querySelector("[data-closeBtn")
-const submitBtn = document.querySelector("[data-submit]")
-const select = document.querySelector("[data-select]")
+const form = document.querySelector('[data-form]');
+const formPopUp = document.querySelector('[data-formPopUp]');
+const newBtn = document.querySelector("[data-newTodo]");
+const closeBtn = document.querySelector("[data-closeBtn");
+const submitBtn = document.querySelector("[data-submit]");
+const select = document.querySelector("[data-select]");
+const newProject = document.querySelector("[data-newProject]");
 
 // Test items
 let projectContainer = ProjectContainer();
@@ -24,7 +25,6 @@ let test1 = projectContainer.newProject("test1")
 let test2 = projectContainer.newProject("test2")
 let test3 = projectContainer.newProject("test3")
 
-console.log(projectContainer.getProjects())
 let testTodo = Todo("todo1", "description", "DD", "urgent")
 let testTodo2 = Todo("todo2", "description", "DD", "urgent")
 test1.addTodo(testTodo)
@@ -38,27 +38,11 @@ console.log(projectContainer.getProjects())
 
 
 //List projects in sidebar and select
-projectContainer.getProjects().forEach(element => {
-    console.log(element.projectName);
-    let projectButton = document.createElement("button")
-    let projectItem = document.createElement("li")
-    projectButton.textContent = element.projectName
-    projectItem.appendChild(projectButton)
-    sidebarList.appendChild(projectItem)
-    let option = document.createElement("option")
-    option.textContent = element.projectName
-    option.setAttribute("value", element.projectName)
-    select.appendChild(option)
+renderProjects(projectContainer, content, sidebarList, select);
 
+const allTodos = document.querySelector("#AllTodos")
+allTodos.dispatchEvent(new Event("click"))
 
-    projectButton.addEventListener("click", () => {
-        content.innerHTML = "";
-        element.get().forEach((todo) => {
-            RenderContent(todo, content)
-        })
-
-    })
-});
 
 newBtn.addEventListener("click", () => {
     formPopUp.style.display = "block"
@@ -66,7 +50,7 @@ newBtn.addEventListener("click", () => {
 })
 
 closeBtn.addEventListener("click", () => {
- hideform();
+    hideform();
 })
 
 form.addEventListener("submit", (e) => {
@@ -82,13 +66,20 @@ form.addEventListener("submit", (e) => {
 
     let project = projectContainer.get(formData.get("projects"))
     console.log("selected", project);
+    console.log(formData.get("title"), formData.get("dsc"), formData.get("dueDate"), formData.get("priority"));
 
     project.addTodo(Todo(formData.get("title"), formData.get("dsc"), formData.get("dueDate"), formData.get("priority")))
 
-
-hideform()
+    hideform()
 })
 
+newProject.addEventListener("click", () => {
+    let projectName = prompt("Enter Project Name");
+    if (projectName) {
+        projectContainer.newProject(projectName);
+        renderProjects(projectContainer, content, sidebarList, select);
+    }
+});
 
 function hideform() {
     form.reset()
