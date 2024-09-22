@@ -28,7 +28,7 @@ export function RenderContent(todo, content, projectContainer) {
 
     function todoContent(todo, param) {
         let content = document.createElement("div");
-        content.textContent = todo[param];
+        content.textContent = `${param}: ${todo[param]};`
         todoDiv.appendChild(content);
     }
 }

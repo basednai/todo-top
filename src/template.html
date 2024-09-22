@@ -11,7 +11,9 @@
     <div data-container class="dataContainer">
         <div data-header class="header">Header</div>
         <div data-sidebar class="sidebar">Sidebar
-            <ul class="project-list" data-projectList></ul>
+            <li><button data-listall id="listAll">List All</button>
+                <ul class="project-list" data-projectList>
+                </ul>
         </div>
         <div data-content class="contentContainer">Data</div>
         <div class="newBtns" data-newBtns>
@@ -56,7 +58,12 @@
 
             <div class="formField">
                 <label for="projects"><b>project</b></label>
-                <select id="projects" name="projects" data-select></select>
+                <select id="projects" name="projects" data-select>
+
+                    <option value="none"></option>
+
+                </select>
+
             </div>
 
             <div class="formField">

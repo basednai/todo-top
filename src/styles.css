@@ -44,7 +44,7 @@ div {
     justify-items: center;
 }
 
-.project-list>li {
+.project-list>li, #listAll {
     margin: 20px 0px;
 }
 
