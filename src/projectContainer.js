@@ -36,3 +36,5 @@ export function ProjectContainer() {
         }
     }
 }
+
+export const container = ProjectContainer();

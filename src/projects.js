@@ -1,5 +1,5 @@
-import { Todo } from "./todo";
 import { RenderContent } from "./renderContent";
+import { container } from "./projectContainer";
 
 export function Project(name, master = false) {
     let todos = [];
@@ -14,15 +14,15 @@ export function Project(name, master = false) {
             todos.push(Todo)
         },
 
-        removeTodo: function (Todo, projectContainer, project, content, all) {
+        removeTodo: function (Todo, container, project, content, all) {
 
             todos = todos.filter((item) => item != Todo);
-            RenderContent(projectContainer, project, content, all)
+            RenderContent(container, project, content, all)
 
         },
         clearTodos: function () {
             todos = [];
-            RenderContent(projectContainer, project, content, all)
+            RenderContent(container, project, content, all)
         },
         get: () => todos,
         projectName,

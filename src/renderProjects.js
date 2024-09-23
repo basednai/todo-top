@@ -1,7 +1,10 @@
-import { RenderContent } from "./renderContent";
+import { listall, RenderContent } from "./renderContent";
+import { container } from "./projectContainer";
 
-export function renderProjects(projectContainer, sidebarList, select) {
-    // document.querySelector("[data-content]").innerHTML = "";
+export function renderProjects() {
+
+    const sidebarList = document.querySelector('[data-projectList]')
+    const select = document.querySelector("[data-select]")
     sidebarList.innerHTML = "";
     select.innerHTML = "";
     let noneOption = document.createElement("option")
@@ -12,13 +15,16 @@ export function renderProjects(projectContainer, sidebarList, select) {
     listAll.setAttribute("data-listall", "")
     listAll.id = "listAll"
     listAll.textContent = "List All"
+    listAll.addEventListener("click", () => {
+        listall();
+    })
     let item = document.createElement("li")
     item.appendChild(listAll)
     sidebarList.appendChild(item)
 
     noneOption.value = "none";
     select.appendChild(noneOption);
-    projectContainer.getProjects().forEach(element => {
+    container.getProjects().forEach(element => {
         let projectButton = document.createElement("button")
         projectButton.id = element.projectName.replace(" ", "")
         let projectItem = document.createElement("li")
@@ -37,9 +43,9 @@ export function renderProjects(projectContainer, sidebarList, select) {
 
 
         projectButton.addEventListener("click", () => {
-            let selectedButtonProject = (projectButton.id == "AllTodos" ? masterProject : projectContainer.get(projectButton.textContent)
+            let selectedButtonProject = (projectButton.id == "AllTodos" ? masterProject : container.get(projectButton.textContent)
             )
-            RenderContent(projectContainer, selectedButtonProject, document.querySelector('[data-content]'))
+            RenderContent(container, selectedButtonProject, document.querySelector('[data-content]'))
 
 
 
@@ -49,7 +55,7 @@ export function renderProjects(projectContainer, sidebarList, select) {
     });
 }
 
-export function appendProject(newProject, projectContainer, content, sidebarList, select) {
+export function appendProject(newProject, container, content, sidebarList, select) {
     let projectButton = document.createElement("button")
     projectButton.id = newProject.projectName.replace(" ", "")
     let projectItem = document.createElement("li")
@@ -66,8 +72,8 @@ export function appendProject(newProject, projectContainer, content, sidebarList
 
     projectButton.setAttribute("data-selectproject", "")
     projectButton.addEventListener("click", () => {
-        let selectedButtonProject = projectContainer.get(projectButton.textContent)
+        let selectedButtonProject = container.get(projectButton.textContent)
 
-        RenderContent(projectContainer, selectedButtonProject, content)
+        RenderContent(container, selectedButtonProject, content)
     })
 }

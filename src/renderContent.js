@@ -1,12 +1,12 @@
-import { ProjectContainer } from "./projectContainer.js";
-import { Project } from "./projects.js";
-import { renderProjects } from "./renderProjects.js";
+
+import { container } from "./projectContainer.js";
+
 
 //clear content and render button info
-export function RenderContent(projectContainer, project, content, all = false) {
+export function RenderContent(container, project, content, all = false) {
     content.innerHTML = "";
 
-    if (all) project = projectContainer.allTodos()
+    if (all) project = container.allTodos()
 
     project.get().forEach((todo) => {
 
@@ -18,16 +18,15 @@ export function RenderContent(projectContainer, project, content, all = false) {
         todoContent(todo, "description", todoDiv);
         todoContent(todo, "dueDate", todoDiv);
         todoContent(todo, "priority", todoDiv);
+        todoContent(todo, "project", todoDiv);
 
         let rmBtn = document.createElement("button");
         rmBtn.textContent = "Remove"
         rmBtn.classList.add("rmButton")
         rmBtn.addEventListener("click", () => {
-            project = projectContainer.get(todo.project)
+            project = container.get(todo.project)
 
-
-
-            project.removeTodo(todo, projectContainer, project, content, all)
+            project.removeTodo(todo, container, project, content, all)
 
         })
         todoDiv.appendChild(rmBtn)
@@ -40,12 +39,25 @@ export function RenderContent(projectContainer, project, content, all = false) {
         let content = document.createElement("div");
 
         let heading = (param == "dueDate") ? "Due Date" : param
+        if (param == "dueDate") {
+            content.innerHTML = `<strong>${capitalize(heading)}</strong> <br> ${todo[param].toLocaleString('en-US')}`;
+        }
+        else if (param == "project" && todo[param] == "none") {
+            content.innerHTML = `<strong>${capitalize(heading)}</strong> <br> Not Assigned`;
 
-        content.innerHTML = (param == "dueDate") ? `<strong>${capitalize(heading)}</strong> <br> ${todo[param].toLocaleString('en-US')}` : `<strong>${capitalize(heading)}</strong> <br> ${todo[param]}`;
+        }
+        else content.innerHTML = `<strong>${capitalize(heading)}</strong> <br> ${todo[param]}`;
+
+
+
         parent.appendChild(content);
 
         function capitalize(string) {
             return string.charAt(0).toUpperCase() + string.slice(1);
         }
     }
+}
+
+export function listall() {
+    RenderContent(container, container.allTodos(), document.querySelector('[data-content]'), true)
 }
