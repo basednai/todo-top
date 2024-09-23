@@ -1,9 +1,10 @@
-import { container, ProjectContainer } from "./projectContainer"
+// import { container, ProjectContainer } from "./projectContainer"
 import { hideform } from "./hideForm"
 import { RenderContent } from "./renderContent"
 import { appendProject, renderProjects } from "./renderProjects"
 import { listall } from "./renderContent"
 import { Todo } from "./todo"
+import { container } from "./storage"
 
 export function events() {
     document.querySelector("[data-newTodo]").addEventListener("click", () => {

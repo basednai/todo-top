@@ -1,5 +1,7 @@
 
-import { container } from "./projectContainer.js";
+// import { container } from "./projectContainer.js";
+import { container } from "./storage"
+
 
 
 //clear content and render button info
@@ -40,7 +42,7 @@ export function RenderContent(container, project, content, all = false) {
 
         let heading = (param == "dueDate") ? "Due Date" : param
         if (param == "dueDate") {
-            content.innerHTML = `<strong>${capitalize(heading)}</strong> <br> ${todo[param].toLocaleString('en-US')}`;
+            content.innerHTML = `<strong>${capitalize(heading)}</strong> <br> ${todo[param]}`;
         }
         else if (param == "project" && todo[param] == "none") {
             content.innerHTML = `<strong>${capitalize(heading)}</strong> <br> Not Assigned`;
@@ -59,5 +61,5 @@ export function RenderContent(container, project, content, all = false) {
 }
 
 export function listall() {
-    RenderContent(container, container.allTodos(), document.querySelector('[data-content]'), true)
+        RenderContent(container, container.allTodos(), document.querySelector('[data-content]'), true)
 }

@@ -1,7 +1,10 @@
+import { save } from "./storage";
 import { Project } from "./projects.js";
+import { container } from "./storage"
 
-export function ProjectContainer() {
-    let projects = [];
+
+export function ProjectContainer(savedProjects = []) {
+    let projects = savedProjects;
     let none = Project("none");
 
     return {
@@ -12,15 +15,18 @@ export function ProjectContainer() {
                 } else {
                     let project = Project(name)
                     projects.push(project);
+                    save();
                     return project;
                 }
         },
         removeProject: (name) => {
             if (name != "none") {
-                projects = projects.filter((proj) => proj.projectName != name)
+                projects.splice(0,projects.length, ...projects.filter((proj) => proj.projectName != name))
+                save()
             }
         },
         getProjects: () => projects,
+        getNone: () => none,
         get: (projectName) => {
             return projectName == "none" ? none :
                 projects.find((item) => item.projectName == projectName)
@@ -30,11 +36,25 @@ export function ProjectContainer() {
             none.get().forEach((todo) => master.addToAll(todo))
 
             projects.forEach((project) => {
+
                 project.get().forEach((todo) => master.addToAll(todo))
             })
             return master
         }
     }
 }
+// let container = ProjectContainer();
 
-export const container = ProjectContainer();
+// if (!localStorage.getItem("container")) {
+//     console.log("not found");
+//     container = ProjectContainer();
+//     container.save()
+
+// } else {
+//     console.log("found")
+//     container = JSON.parse(localStorage.getItem("container"))
+//     console.log("logging container", container)
+// }
+
+
+// export { container }
