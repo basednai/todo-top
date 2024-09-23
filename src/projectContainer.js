@@ -6,9 +6,19 @@ export function ProjectContainer() {
 
     return {
         newProject: (name) => {
-            let project = Project(name)
-            projects.push(project);
-            return project;
+            if (name != "none")
+                if (projects.find((proj) => proj.projectName == name)) {
+                    return false
+                } else {
+                    let project = Project(name)
+                    projects.push(project);
+                    return project;
+                }
+        },
+        removeProject: (name) => {
+            if (name != "none") {
+                projects = projects.filter((proj) => proj.projectName != name)
+            }
         },
         getProjects: () => projects,
         get: (projectName) => {

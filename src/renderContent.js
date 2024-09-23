@@ -7,11 +7,8 @@ export function RenderContent(projectContainer, project, content, all = false) {
     content.innerHTML = "";
 
     if (all) project = projectContainer.allTodos()
-    console.log(project);
-
 
     project.get().forEach((todo) => {
-        console.log(todo);
 
         let todoDiv = document.createElement("div");
         todoDiv.classList.add("todo");
@@ -23,13 +20,15 @@ export function RenderContent(projectContainer, project, content, all = false) {
         todoContent(todo, "priority", todoDiv);
 
         let rmBtn = document.createElement("button");
-        rmBtn.textContent = "Remove todo"
+        rmBtn.textContent = "Remove"
+        rmBtn.classList.add("rmButton")
         rmBtn.addEventListener("click", () => {
-            // let project = projectContainer.get(todo.project)
+            project = projectContainer.get(todo.project)
 
-            project.removeTodo(todo)
 
-            RenderContent(projectContainer, project, content, all)
+
+            project.removeTodo(todo, projectContainer, project, content, all)
+
         })
         todoDiv.appendChild(rmBtn)
 
@@ -37,10 +36,16 @@ export function RenderContent(projectContainer, project, content, all = false) {
 
     })
 
-
     function todoContent(todo, param, parent) {
         let content = document.createElement("div");
-        content.textContent = `${param}: ${todo[param]};`
+
+        let heading = (param == "dueDate") ? "Due Date" : param
+
+        content.innerHTML = (param == "dueDate") ? `<strong>${capitalize(heading)}</strong> <br> ${todo[param].toLocaleString('en-US')}` : `<strong>${capitalize(heading)}</strong> <br> ${todo[param]}`;
         parent.appendChild(content);
+
+        function capitalize(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
     }
 }

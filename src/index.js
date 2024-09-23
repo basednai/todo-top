@@ -5,53 +5,38 @@ import { ProjectContainer } from "./projectContainer.js";
 import { renderProjects, appendProject } from "./renderProjects.js";
 import { RenderContent } from "./renderContent.js";
 
-
-
-const container = document.querySelector('[data-container]');
-const header = document.querySelector('[data-header]');
-const sidebar = document.querySelector('[data-sidebar]');
-const sidebarList = document.querySelector('[data-projectList]');
-const content = document.querySelector('[data-content]');
-const form = document.querySelector('[data-form]');
-const formPopUp = document.querySelector('[data-formPopUp]');
-const newBtn = document.querySelector("[data-newTodo]");
-const closeBtn = document.querySelector("[data-closeBtn");
-const submitBtn = document.querySelector("[data-submit]");
-const select = document.querySelector("[data-select]");
-const newProject = document.querySelector("[data-newProject]");
-const noProject = document.querySelector("[data-noproject]")
-
-
 // Test items
-let projectContainer = ProjectContainer();
-let test1 = projectContainer.newProject("test1")
-let test2 = projectContainer.newProject("test2")
-let test3 = projectContainer.newProject("test3")
+const projectContainer = ProjectContainer();
 
-let testTodo = Todo("todo1", "description", "DD", "urgent")
-let testTodo2 = Todo("todo2", "description", "DD", "urgent")
+let test1 = projectContainer.newProject("Sample Project 1")
+let test2 = projectContainer.newProject("Sample Project 2")
+let test3 = projectContainer.newProject("Sample Project 3")
+
+let testTodo = Todo("Todo 1", "Insert description here", "Insert Due Date/Time", "Insert Urgency")
+let testTodo2 = Todo("Todo 2", "Insert description here", "Insert Due Date/Time", "Insert Urgency")
+let testTodo3 = Todo("Todo 3", "Insert description here", "Insert Due Date/Time", "Insert Urgency")
+
+
 test1.addTodo(testTodo)
-test1.addTodo(testTodo2)
-
-let testTodo3 = Todo("todo3", "description", "DD", "urgent")
+test2.addTodo(testTodo2)
 test3.addTodo(testTodo3)
 
+listall()
 //List projects in sidebar and select
-renderProjects(projectContainer, sidebarList, select);
+renderProjects(projectContainer, document.querySelector('[data-projectList]'), document.querySelector("[data-select]"));
 
-
-newBtn.addEventListener("click", () => {
-    formPopUp.style.display = "block"
-    newBtn.style.display = "none"
+document.querySelector("[data-newTodo]").addEventListener("click", () => {
+    document.querySelector('[data-formPopUp]').style.display = "block"
+    document.querySelector("[data-newTodo]").style.display = "none"
 })
 
-closeBtn.addEventListener("click", () => {
-    hideform();
+document.querySelector("[data-closeBtn").addEventListener("click", () => {
+    hideform(document.querySelector('[data-form]'), document.querySelector('[data-formPopUp]'), document.querySelector('[data-newtodo]'))
 })
 
-form.addEventListener("submit", (e) => {
+document.querySelector('[data-form]').addEventListener("submit", (e) => {
     e.preventDefault();
-    let formData = new FormData(form);
+    let formData = new FormData(document.querySelector('[data-form]'));
 
     // iterate through the name-value pairs
     // for (let pair of formData.entries()) {
@@ -67,40 +52,43 @@ form.addEventListener("submit", (e) => {
 
 
 
-    hideform()
+    hideform(document.querySelector('[data-form]'), document.querySelector('[data-formPopUp]'), document.querySelector('[data-newtodo]'))
 
-    RenderContent(ProjectContainer, project, content, (project.projectName == "none") ? true : false)
+    RenderContent(projectContainer, project, document.querySelector('[data-content]'), (project.projectName == "none") ? true : false)
 })
 
-newProject.addEventListener("click", () => {
+document.querySelector("[data-newProject]").addEventListener("click", () => {
     let projectName = prompt("Enter Project Name");
-    if (projectName) {
-        appendProject(projectContainer.newProject(projectName), projectContainer, content, sidebarList, select);
-    }
+    if (projectName)
+        if (!projectContainer.getProjects().find((proj) => proj.projectName == projectName)) {
+            appendProject(projectContainer.newProject(projectName), projectContainer, document.querySelector('[data-content]'), document.querySelector('[data-projectList]'), document.querySelector("[data-select]"));
+        }
 });
 
-function hideform() {
+function hideform(form, formPopUp, newBtn) {
     form.reset()
     formPopUp.style.display = "none"
-    newBtn.style.display = "block"
+    newBtn.style.display = "inline"
 }
-
-let sbButtons = document.querySelectorAll("[data-selectproject]")
-sbButtons.forEach((button) => {
-    // if (button.textContent == "All Todos") { };
-    // render todos when selected
-    button.addEventListener("click", () => {
-        let selectedButtonProject = (button.id == "AllTodos" ? masterProject : projectContainer.get(button.textContent)
-        )
-        RenderContent(projectContainer, selectedButtonProject, content)
-
-
-
-    })
-});
 
 document.querySelector("[data-listall]").addEventListener("click", () => {
     // console.log("click");
-    RenderContent(projectContainer, projectContainer.allTodos(), content, true)
+    listall()
 });
 
+document.querySelector(["[data-rmProject]"]).addEventListener("click", () => {
+    let rmName = prompt("Enter Project to Remove");
+
+    if (rmName)
+        if (rmName != "none") {
+            projectContainer.removeProject(rmName)
+            renderProjects(projectContainer, document.querySelector('[data-projectList]'), document.querySelector("[data-select]"));
+            listall()
+        }
+        else alert("Invalid entry.")
+})
+
+function listall() {
+    RenderContent(projectContainer, projectContainer.allTodos(), document.querySelector('[data-content]'), true)
+
+}

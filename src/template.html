@@ -4,40 +4,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>ListBuddy</title>
 </head>
 
 <body>
     <div data-container class="dataContainer">
-        <div data-header class="header">Header</div>
-        <div data-sidebar class="sidebar">Sidebar
-            <li><button data-listall id="listAll">List All</button>
-                <ul class="project-list" data-projectList>
-                </ul>
+        <div data-header class="header"><div class="headerText">ListBuddy</div></div>
+        <div data-sidebar class="sidebar">
+
+            <ul class="project-list" data-projectList>
+
+            </ul>
+
         </div>
-        <div data-content class="contentContainer">Data</div>
+        <div data-content class="contentContainer"></div>
         <div class="newBtns" data-newBtns>
             <button class="newTodo" data-newTodo>New Todo</button>
             <button class="newProject" data-newProject>New Project</button>
+            <button class="rmProject" data-rmproject>Remove Project</button>
         </div>
     </div>
 
     <div class="form-popup" data-formpopup id="myForm">
         <form class="form-container" data-form>
-            <h1>New Todo</h1>
+            <h1>Add New Todo</h1>
 
             <div class="formField">
-                <label for="title"><b>title</b></label>
+                <label for="title"><b>Title: </b></label>
                 <input type="text" placeholder="Enter title" name="title" required>
             </div>
 
             <div class="formField">
-                <label for="dsc"><b>description</b></label>
+                <label for="dsc"><b>Description: </b></label>
                 <input type="text" placeholder="Enter description" name="dsc" required>
             </div>
 
             <div class="formField">
-                <label for="dueDate"><b>dueDate</b></label>
+                <label for="dueDate"><b>Due Date: </b></label>
                 <input type="datetime-local" placeholder="Enter dueDate" name="dueDate" required>
             </div>
 
@@ -45,7 +48,7 @@
                 <!-- <label for="priority"><b>priority</b></label>
                 <input type="text" placeholder="Enter priority" name="priority" required> -->
 
-                <label for="priority"><b>priority</b></label>
+                <label for="priority"><b>Priority: </b></label>
                 <select id="priority" name="priority">
                     <option value=""></option>
                     <option value="!">!</option>
@@ -57,7 +60,7 @@
             </div>
 
             <div class="formField">
-                <label for="projects"><b>project</b></label>
+                <label for="projects"><b>Project: </b></label>
                 <select id="projects" name="projects" data-select>
 
                     <option value="none"></option>
